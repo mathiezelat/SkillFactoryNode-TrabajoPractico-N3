@@ -1,0 +1,102 @@
+const categoryService = require('../services/categoryService.js')
+
+const getAllCategories = async (req, res) => {
+	const allCategories = await categoryService.getAllCategories()
+
+	res.status(200).json({ status: 'ok', data: allCategories })
+}
+
+const getOneCategory = async (req, res) => {
+	const { categoryId } = req.params
+
+	const category = await categoryService.getOneCategory(parseInt(categoryId))
+
+	if (!category) {
+		return res.status(404).json({
+			status: 'error',
+			err: `Category with id ${categoryId} not found`,
+		})
+	}
+
+	res.status(200).json({ status: 'ok', data: category })
+}
+
+const createNewCategory = async (req, res) => {
+	const { name } = req.body
+
+	if (!name) {
+		return res.status(400).json({
+			status: 'error',
+			err: 'You must fill all the fields',
+			reason: 'Fields: name are empty',
+		})
+	}
+
+	const newCategory = {
+		name,
+	}
+
+	const createdCategory = await categoryService.createNewCategory(newCategory)
+
+	res.status(201).json({
+		status: 'ok',
+		msg: 'Category successfully updated',
+		data: createdCategory,
+	})
+}
+
+const updateCategory = async (req, res) => {
+	const { categoryId } = req.params
+	const { name } = req.body
+
+	const updateCategory = {
+		name,
+	}
+
+	try {
+		const updatedCategory = await categoryService.updateCategory(
+			parseInt(categoryId),
+			updateCategory
+		)
+
+		res.status(200).json({
+			status: 'ok',
+			msg: 'Category successfully updated',
+			data: updatedCategory,
+		})
+	} catch (error) {
+		res.status(404).json({
+			status: 'error',
+			msg: 'Category not found',
+		})
+	}
+}
+
+const deleteCategory = async (req, res) => {
+	const { categoryId } = req.params
+
+	try {
+		const deletedCategory = await categoryService.deleteCategory(
+			parseInt(categoryId)
+		)
+
+		res.status(200).json({
+			status: 'ok',
+			msg: 'Category successfully deleted',
+			data: deletedCategory,
+		})
+	} catch (error) {
+		res.status(404).json({
+			status: 'error',
+			msg: 'Category not found',
+		})
+	}
+}
+
+module.exports = {
+	getAllCategories,
+	getOneCategory,
+	createNewCategory,
+	updateCategory,
+	deleteCategory,
+}
