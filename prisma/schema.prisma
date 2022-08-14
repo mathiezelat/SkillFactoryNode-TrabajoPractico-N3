@@ -27,9 +27,9 @@ model Post {
   content    String
   createdAt  DateTime   @default(now())
   published  Boolean    @default(false)
-  categories Category[]
-  authorId   Int
   author     User       @relation(fields: [authorId], references: [id])
+  authorId   Int
+  categories Category[]
 }
 
 model Category {
