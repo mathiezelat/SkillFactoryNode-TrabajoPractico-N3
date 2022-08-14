@@ -11,6 +11,11 @@ Continuar con el servidor hecho con express y usando prisma como orm.
 npm install
 ```
 
+### Preparar la base de datos MySQL
+```sh
+npx prisma db pull 
+```
+
 ### Iniciar en modo desarrollo
 ```sh
 npm run dev
@@ -35,18 +40,19 @@ npm start
 }
 ```
 
+`http://localhost:3000/api/v1/categories`
+```json
+{
+	"name": "Programming"
+}
+```
+
 `http://localhost:3000/api/v1/posts`
 ```json
 {
 	"title": "Hello World",
 	"content": "This is a content",
-	"authorId": 1
-}
-```
-
-`http://localhost:3000/api/v1/categories`
-```json
-{
-	"name": "Programming"
+	"authorId": 1,
+	"categories": { "connect": [{"id": 1}] }
 }
 ```
