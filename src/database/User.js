@@ -2,7 +2,15 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const getAllUsers = async () => {
-	const allUsers = await prisma.user.findMany()
+	const allUsers = await prisma.user.findMany({
+		include: {
+			posts: {
+				include: {
+					categories: true,
+				},
+			},
+		},
+	})
 	return allUsers
 }
 
@@ -11,6 +19,13 @@ const getOneUser = async userId => {
 		where: {
 			id: userId,
 		},
+		include: {
+			posts: {
+				include: {
+					categories: true,
+				},
+			},
+		},
 	})
 	return user
 }
@@ -18,6 +33,13 @@ const getOneUser = async userId => {
 const createNewUser = async newUser => {
 	const createdUser = await prisma.user.create({
 		data: newUser,
+		include: {
+			posts: {
+				include: {
+					categories: true,
+				},
+			},
+		},
 	})
 	return createdUser
 }
@@ -28,6 +50,13 @@ const updateUser = async (userId, updateUser) => {
 			id: userId,
 		},
 		data: updateUser,
+		include: {
+			posts: {
+				include: {
+					categories: true,
+				},
+			},
+		},
 	})
 	return updatedUser
 }
@@ -36,6 +65,13 @@ const deleteUser = async userId => {
 	const deletedUser = await prisma.user.delete({
 		where: {
 			id: userId,
+		},
+		include: {
+			posts: {
+				include: {
+					categories: true,
+				},
+			},
 		},
 	})
 	return deletedUser

@@ -2,7 +2,12 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const getAllPosts = async () => {
-	const allPost = await prisma.post.findMany()
+	const allPost = await prisma.post.findMany({
+		include: {
+			author: true,
+			categories: true,
+		},
+	})
 	return allPost
 }
 
@@ -11,6 +16,10 @@ const getOnePost = async postId => {
 		where: {
 			id: postId,
 		},
+		include: {
+			author: true,
+			categories: true,
+		},
 	})
 	return post
 }
@@ -18,6 +27,10 @@ const getOnePost = async postId => {
 const createNewPost = async newPost => {
 	const createdPost = await prisma.post.create({
 		data: newPost,
+		include: {
+			author: true,
+			categories: true,
+		},
 	})
 	return createdPost
 }
@@ -28,6 +41,10 @@ const updatePost = async (postId, updatePost) => {
 			id: postId,
 		},
 		data: updatePost,
+		include: {
+			author: true,
+			categories: true,
+		},
 	})
 	return updatedPost
 }
@@ -36,6 +53,10 @@ const deletePost = async postId => {
 	const deletedPost = await prisma.post.delete({
 		where: {
 			id: postId,
+		},
+		include: {
+			author: true,
+			categories: true,
 		},
 	})
 	return deletedPost

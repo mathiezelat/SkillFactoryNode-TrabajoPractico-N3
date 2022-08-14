@@ -22,7 +22,7 @@ const getOneCategory = async (req, res) => {
 }
 
 const createNewCategory = async (req, res) => {
-	const { name } = req.body
+	const { name, posts } = req.body
 
 	if (!name) {
 		return res.status(400).json({
@@ -34,23 +34,25 @@ const createNewCategory = async (req, res) => {
 
 	const newCategory = {
 		name,
+		posts,
 	}
 
 	const createdCategory = await categoryService.createNewCategory(newCategory)
 
 	res.status(201).json({
 		status: 'ok',
-		msg: 'Category successfully updated',
+		msg: 'Category successfully created',
 		data: createdCategory,
 	})
 }
 
 const updateCategory = async (req, res) => {
 	const { categoryId } = req.params
-	const { name } = req.body
+	const { name, posts } = req.body
 
 	const updateCategory = {
 		name,
+		posts,
 	}
 
 	try {
