@@ -11,9 +11,14 @@ Continuar con el servidor hecho con express y usando prisma como orm.
 npm install
 ```
 
-### Preparar la base de datos MySQL
+### Subimos los modelos que creamos con prisma a nuestra base de datos
 ```sh
-npx prisma db pull 
+npx prisma db push 
+```
+
+### Generamos el prisma client personalizado de nuestro proyecto
+```sh
+npx prisma generate
 ```
 
 ### Iniciar en modo desarrollo
